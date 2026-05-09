@@ -20,6 +20,8 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/skittercore-studio/friendslop/internal/db"
+	eventssetup "github.com/skittercore-studio/friendslop/internal/events/setup"
+	"github.com/skittercore-studio/friendslop/internal/game"
 	"github.com/skittercore-studio/friendslop/internal/server"
 )
 
@@ -50,6 +52,19 @@ func main() {
 
 	r := chi.NewRouter()
 	s := server.NewServer(d)
+
+	// Wiring order matters: events first replaces the NoopPublisher with the
+	// real in-memory pubsub, so when game logic emits events they actually
+	// reach SSE subscribers. game.Setup then registers all game-action
+	// endpoints and starts the round-timer goroutine, which lives for the
+	// duration of rootCtx.
+	if err := eventssetup.Wire(s); err != nil {
+		log.Fatalf("events setup: %v", err)
+	}
+	if err := game.Setup(rootCtx, s); err != nil {
+		log.Fatalf("game setup: %v", err)
+	}
+
 	s.Mount(r)
 
 	httpSrv := &http.Server{
