@@ -1,0 +1,21 @@
+name: build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  go:
+    name: go build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+          cache: true
+      - name: build
+        run: go build ./...
+      - name: test
+        run: go test ./... -race -count=1
