@@ -59,7 +59,11 @@ func (h *Rooms) Mount(r chi.Router, requireSession func(http.Handler) http.Handl
 		g.Use(requireSession)
 		g.Get("/api/v1/rooms/{code}/me", h.PrivateMe)
 		g.Post("/api/v1/rooms/{code}/leave", h.Leave)
-		g.Post("/api/v1/rooms/{code}/abandon", h.AbandonStub)
+		// /abandon is registered by internal/game (gamelogic agent) once the
+		// game package is wired in; bootstrap leaves it unrouted so chi does
+		// not panic on duplicate registrations. The AbandonStub method is
+		// retained below for backward-compatibility while the gamelogic agent
+		// completes wiring.
 	})
 }
 

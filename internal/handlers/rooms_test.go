@@ -188,11 +188,10 @@ func TestRoomCreateJoinSnapshot(t *testing.T) {
 		t.Fatalf("bare /me should 401, got %d", resp.StatusCode)
 	}
 
-	// abandon stub returns 501.
-	resp, _ = postJSON(t, hostClient, srv.URL+"/api/v1/rooms/"+created.RoomCode+"/abandon", map[string]any{})
-	if resp.StatusCode != http.StatusNotImplemented {
-		t.Fatalf("abandon stub should 501, got %d", resp.StatusCode)
-	}
+	// /abandon is now owned by the gamelogic package (internal/game) and is
+	// not mounted by the bare server.Server used in this test. We don't
+	// exercise it here — see internal/game/handlers_test.go for the real
+	// abandon coverage.
 }
 
 func TestRoomCreateValidation(t *testing.T) {
