@@ -17,7 +17,10 @@ interface Props {
   code: string;
 }
 
-export function Endgame({ code }: Props) {
+// `code` is part of the screen contract but unused here — Endgame doesn't
+// hit any code-keyed endpoints. Prefix with underscore to satisfy
+// noUnusedParameters.
+export function Endgame({ code: _code }: Props) {
   const r = room.value;
   const m = me.value;
   const [creating, setCreating] = useState(false);
