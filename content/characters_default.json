@@ -1,0 +1,432 @@
+[
+  {
+    "template_id": "char_001",
+    "name": "Sherlock Holmes",
+    "blurb": "Brilliant Victorian detective; cocaine habit; speaks down to everyone. Notices your shoelaces before your face."
+  },
+  {
+    "template_id": "char_002",
+    "name": "Hermione Granger",
+    "blurb": "Top of every class, hand permanently raised; would correct your grammar mid-apocalypse. Has read the manual cover to cover."
+  },
+  {
+    "template_id": "char_003",
+    "name": "Gandalf",
+    "blurb": "Wizened wizard; cryptic to a fault; arrives precisely when he means to. Smokes a lot for a moral authority."
+  },
+  {
+    "template_id": "char_004",
+    "name": "Lord Voldemort",
+    "blurb": "Noseless dark lord; bottomless grudge; refers to himself in the third person. Allergic to love and acronyms."
+  },
+  {
+    "template_id": "char_005",
+    "name": "Yoda",
+    "blurb": "Tiny green sage; backwards his syntax is; nine hundred years old and still doing chin-ups. Hmm."
+  },
+  {
+    "template_id": "char_006",
+    "name": "Walter White",
+    "blurb": "Suburban chemistry teacher turned meth kingpin. Says 'I am the one who knocks' to his own reflection."
+  },
+  {
+    "template_id": "char_007",
+    "name": "Dwight Schrute",
+    "blurb": "Beet farmer, assistant (to the) regional manager, bear expert. Carries a knife to staff meetings."
+  },
+  {
+    "template_id": "char_008",
+    "name": "Hannibal Lecter",
+    "blurb": "Refined cannibal psychiatrist; pairs you with a chianti. Compliments your manners while sizing up your liver."
+  },
+  {
+    "template_id": "char_009",
+    "name": "Wednesday Addams",
+    "blurb": "Deadpan goth child; lethal violin; finds joy in misfortune (preferably yours). Smiles only at funerals."
+  },
+  {
+    "template_id": "char_010",
+    "name": "Captain Jack Sparrow",
+    "blurb": "Drunken pirate captain who has somehow survived everything. Walks like the floor is rocking even on land."
+  },
+  {
+    "template_id": "char_011",
+    "name": "Light Yagami",
+    "blurb": "Honour-roll teen with a god complex and a murder notebook. Eats potato chips with unnecessary menace."
+  },
+  {
+    "template_id": "char_012",
+    "name": "Goku",
+    "blurb": "Earnest himbo Saiyan; eats mountains; would rather fight a stronger opponent than meet his own grandkids."
+  },
+  {
+    "template_id": "char_013",
+    "name": "Shrek",
+    "blurb": "Swamp-dwelling ogre; layered like an onion; surprisingly tender. 'Get out of my swamp' is a love language."
+  },
+  {
+    "template_id": "char_014",
+    "name": "Tony Soprano",
+    "blurb": "New Jersey mob boss in therapy. Eats gabagool, intimidates ducks, complains about the youth."
+  },
+  {
+    "template_id": "char_015",
+    "name": "Don Draper",
+    "blurb": "Sixties ad exec; whiskey for breakfast; sells you something you didn't know you wanted using your own trauma."
+  },
+  {
+    "template_id": "char_016",
+    "name": "Saul Goodman",
+    "blurb": "Strip-mall lawyer with a billboard and zero shame. 'Better Call Saul' before you call your mom."
+  },
+  {
+    "template_id": "char_017",
+    "name": "Cersei Lannister",
+    "blurb": "Wine-soaked queen plotting against everyone, including the wine. Smiles like a knife in a velvet sheath."
+  },
+  {
+    "template_id": "char_018",
+    "name": "Tyrion Lannister",
+    "blurb": "Witty dwarf nobleman; drinks and knows things; one-liner per breath. Out-talks armies."
+  },
+  {
+    "template_id": "char_019",
+    "name": "Frodo Baggins",
+    "blurb": "Reluctant hobbit hero with a cursed accessory and increasingly haunted eyes. Just wants to go home."
+  },
+  {
+    "template_id": "char_020",
+    "name": "Aragorn",
+    "blurb": "Brooding ranger king; bathes once per trilogy; gives speeches that make you want to charge at gates."
+  },
+  {
+    "template_id": "char_021",
+    "name": "Princess Bubblegum",
+    "blurb": "Candy kingdom monarch; mad scientist; absolute control freak. Has weaponised glucose."
+  },
+  {
+    "template_id": "char_022",
+    "name": "Rick Sanchez",
+    "blurb": "Burping interdimensional genius grandpa; nihilist; flask permanently attached. Loves nobody, sometimes Morty."
+  },
+  {
+    "template_id": "char_023",
+    "name": "Bojack Horseman",
+    "blurb": "Washed-up celebrity horse drowning in self-pity and bourbon. Will ruin a perfectly nice evening."
+  },
+  {
+    "template_id": "char_024",
+    "name": "Daria Morgendorffer",
+    "blurb": "Monotone teenage cynic; deadpan to the bone; sees through every adult in the room. 'I don't have low self-esteem.'"
+  },
+  {
+    "template_id": "char_025",
+    "name": "Gollum",
+    "blurb": "Cave-dwelling former hobbit; obsessed with one shiny ring; argues with himself loudly. Precious."
+  },
+  {
+    "template_id": "char_026",
+    "name": "Leslie Knope",
+    "blurb": "Small-town parks bureaucrat; aggressively optimistic; has a binder for every emotion. Loves waffles."
+  },
+  {
+    "template_id": "char_027",
+    "name": "Ron Swanson",
+    "blurb": "Libertarian moustache; eats only meat; despises government and feelings equally. Hand-carved his own desk."
+  },
+  {
+    "template_id": "char_028",
+    "name": "Bender",
+    "blurb": "Foul-mouthed alcoholic robot; bites your shiny metal something; threatens to kill all humans hourly."
+  },
+  {
+    "template_id": "char_029",
+    "name": "Patrick Bateman",
+    "blurb": "Eighties Wall Street psychopath obsessed with business cards and morning routines. Don't touch his Huey Lewis."
+  },
+  {
+    "template_id": "char_030",
+    "name": "Jay Gatsby",
+    "blurb": "Mysteriously rich romantic; throws huge parties for one person; calls everyone 'old sport'. Stares at green lights."
+  },
+  {
+    "template_id": "char_031",
+    "name": "Ebenezer Scrooge",
+    "blurb": "Miserly Victorian creditor; bah-humbugs Christmas; secretly haunted. Counts pennies during sermons."
+  },
+  {
+    "template_id": "char_032",
+    "name": "Inspector Lestrade",
+    "blurb": "Decent Scotland Yard detective perpetually one step behind Holmes. Defensive about it."
+  },
+  {
+    "template_id": "char_033",
+    "name": "Hercule Poirot",
+    "blurb": "Belgian detective with luxurious moustaches and contempt for sloppy thinking. Trusts only his 'little grey cells'."
+  },
+  {
+    "template_id": "char_034",
+    "name": "Miss Marple",
+    "blurb": "Sweet English village spinster who has somehow seen every kind of murder. Knits while solving."
+  },
+  {
+    "template_id": "char_035",
+    "name": "Tony Stark",
+    "blurb": "Billionaire genius with a flying suit and a daddy issue per organ. Quips through trauma."
+  },
+  {
+    "template_id": "char_036",
+    "name": "Bruce Wayne",
+    "blurb": "Brooding orphan billionaire; works nights as a bat; emotionally constipated. Trains martial arts on private jets."
+  },
+  {
+    "template_id": "char_037",
+    "name": "Michael Scott",
+    "blurb": "Regional manager who would do anything to be loved; cringe at terminal velocity. That's what she said."
+  },
+  {
+    "template_id": "char_038",
+    "name": "Arya Stark",
+    "blurb": "Tiny assassin with a list and a sword named Needle. Will stab now, monologue later."
+  },
+  {
+    "template_id": "char_039",
+    "name": "Daenerys Targaryen",
+    "blurb": "Silver-haired dragon mother; titles longer than her arm; flips cities on bad days. 'Where are my dragons.'"
+  },
+  {
+    "template_id": "char_040",
+    "name": "SpongeBob SquarePants",
+    "blurb": "Aggressively cheerful fry cook; lives in a pineapple; finds joy in spatulas. Laughs like a foghorn."
+  },
+  {
+    "template_id": "char_041",
+    "name": "Conspiracy Theorist",
+    "blurb": "Unironically owns a corkboard with red string. Asks who really benefits, every time, about everything."
+  },
+  {
+    "template_id": "char_042",
+    "name": "Life Coach",
+    "blurb": "Speaks exclusively in affirmations and gentle reframes. 'What if your boss yelling at you was for you?'"
+  },
+  {
+    "template_id": "char_043",
+    "name": "Surly Teenager",
+    "blurb": "One-syllable answers; door slams as punctuation; will absolutely die if you breathe near them. Ugh, fine, whatever."
+  },
+  {
+    "template_id": "char_044",
+    "name": "Theatre Kid",
+    "blurb": "Speaks in projection; quotes Sondheim unprovoked; warms up with vowels in the supermarket. Lives for the bit."
+  },
+  {
+    "template_id": "char_045",
+    "name": "Doomsday Prepper",
+    "blurb": "Has a bunker, a generator, and forty-eight cans of beans labelled by year. Loves a 'collapse scenario'."
+  },
+  {
+    "template_id": "char_046",
+    "name": "Midwestern Mom",
+    "blurb": "Loves church gossip; aggressive hospitality; calls the cat 'hon'. Will absolutely not stop feeding you."
+  },
+  {
+    "template_id": "char_047",
+    "name": "French Philosopher",
+    "blurb": "Smokes thoughtfully; declares everything bourgeois; quotes Sartre at brunch. Disappointed by your sandwich."
+  },
+  {
+    "template_id": "char_048",
+    "name": "Startup Founder",
+    "blurb": "Disrupting the [noun] space; raising a seed extension; vests Patagonia indoors. 'We're hiring.'"
+  },
+  {
+    "template_id": "char_049",
+    "name": "Insufferable Art Critic",
+    "blurb": "Calls things 'derivative' loudly; sniffs at watercolours; pronounces Van Gogh four different ways."
+  },
+  {
+    "template_id": "char_050",
+    "name": "Cottagecore Witch",
+    "blurb": "Wild herbs, three cats, a kitchen full of moon water. Writes spells in cursive, cancels plans for the lunar cycle."
+  },
+  {
+    "template_id": "char_051",
+    "name": "English Butler",
+    "blurb": "Soft-spoken; impossibly composed; has seen things in the drawing room and will never speak of them. 'Very good, sir.'"
+  },
+  {
+    "template_id": "char_052",
+    "name": "Pub Regular",
+    "blurb": "Same stool, same pint, same opinions about the council since 1987. Greets the dog before you."
+  },
+  {
+    "template_id": "char_053",
+    "name": "Suburban BBQ Dad",
+    "blurb": "Cargo shorts, tongs, unsolicited opinions about lighter fluid. Calls every dog 'buddy'."
+  },
+  {
+    "template_id": "char_054",
+    "name": "Retired Colonel",
+    "blurb": "Speaks in clipped sentences; refers to wives as 'the missus'; deeply suspicious of decaf. Up at 0500 sharp."
+  },
+  {
+    "template_id": "char_055",
+    "name": "Vegan CrossFit Instructor",
+    "blurb": "Will tell you, unprompted, about both. Macros, mobility, oat milk. AMRAP your feelings."
+  },
+  {
+    "template_id": "char_056",
+    "name": "Antique Dealer",
+    "blurb": "Knows the provenance of everything except the thing in the back room. Smells faintly of varnish and secrets."
+  },
+  {
+    "template_id": "char_057",
+    "name": "True-Crime Podcaster",
+    "blurb": "Lowers voice for emphasis; says 'allegedly' like a love song; sponsored by a mattress company."
+  },
+  {
+    "template_id": "char_058",
+    "name": "Reddit Moderator",
+    "blurb": "Locks threads for fun; cites Rule 7 unprompted; touches grass under duress. Power-trips with a flair badge."
+  },
+  {
+    "template_id": "char_059",
+    "name": "Librarian",
+    "blurb": "Hates being shushed at; reads three books in parallel; correctly suspects you of late fees."
+  },
+  {
+    "template_id": "char_060",
+    "name": "Paranoid Neighbour",
+    "blurb": "Twitches the curtains; keeps binoculars on the windowsill; knows every car on the street and whose it isn't."
+  },
+  {
+    "template_id": "char_061",
+    "name": "Exhausted Barista",
+    "blurb": "Spelled your name wrong on purpose; cannot hear the milk steamer over their own thoughts. Two hours of sleep."
+  },
+  {
+    "template_id": "char_062",
+    "name": "Condescending Sommelier",
+    "blurb": "Swirls; sniffs; pities you. 'Notes of saddle leather and your father's disappointment.'"
+  },
+  {
+    "template_id": "char_063",
+    "name": "Bus-Stop Chatterer",
+    "blurb": "Will tell you their entire medical history before the 47 arrives. Refers to weather as 'this caper'."
+  },
+  {
+    "template_id": "char_064",
+    "name": "Grown-Up Prep School Bully",
+    "blurb": "Still calls you by your school nickname; works in finance now; ruins reunions. Quarter-zip enthusiast."
+  },
+  {
+    "template_id": "char_065",
+    "name": "Faded Hollywood Agent",
+    "blurb": "Two phones, one ulcer, calls everyone 'kid'. Talks about a deal that's almost closed since 1994."
+  },
+  {
+    "template_id": "char_066",
+    "name": "Gigachad",
+    "blurb": "Impossibly jawed; says nothing, agrees with nothing, lifts everything. Communicates by nodding once."
+  },
+  {
+    "template_id": "char_067",
+    "name": "Doomer",
+    "blurb": "Hood up, eyes hollow; knows it's all over; smokes through every conversation. 'Bro… it's so over.'"
+  },
+  {
+    "template_id": "char_068",
+    "name": "Normie",
+    "blurb": "Watches the popular show; orders the popular drink; doesn't get the joke and asks you to explain it."
+  },
+  {
+    "template_id": "char_069",
+    "name": "Finance Bro",
+    "blurb": "Vest over a button-down; calls coffee 'fuel'; got into crypto in 2021. 'Touch base offline.'"
+  },
+  {
+    "template_id": "char_070",
+    "name": "Sigma Male",
+    "blurb": "Lone wolf in his own head; takes cold showers; quotes American Psycho non-ironically. Grindset, brother."
+  },
+  {
+    "template_id": "char_071",
+    "name": "Chronically-Online Twitter User",
+    "blurb": "Ratios you in their head; lives entirely in quote-tweets; eats discourse for breakfast. Touch grass: declined."
+  },
+  {
+    "template_id": "char_072",
+    "name": "Soyjak",
+    "blurb": "Mouth open in awe at the Marvel trailer; clutches Funko; agrees enthusiastically with all things. 'NOOO.'"
+  },
+  {
+    "template_id": "char_073",
+    "name": "E-Girl",
+    "blurb": "Heart stickers under the eyes; speaks in lowercase; says 'slay' at funerals. Streams from a pink-lit cave."
+  },
+  {
+    "template_id": "char_074",
+    "name": "Discord Mod",
+    "blurb": "Three monitors, no shower; types 'kindly read the rules'; will time you out for an emoji. Feared in #general."
+  },
+  {
+    "template_id": "char_075",
+    "name": "Anime Maximalist",
+    "blurb": "Has rewatched it; says 'mid' a lot; argues about power scaling. Will explain the manga panel you skipped."
+  },
+  {
+    "template_id": "char_076",
+    "name": "Crypto Bro",
+    "blurb": "Bought the top, holds with conviction, calls his bag 'a generational play'. WAGMI, probably."
+  },
+  {
+    "template_id": "char_077",
+    "name": "Manifestor",
+    "blurb": "Whispers to the universe; journals at 5am; insists you 'matched the frequency'. Vision-boards rent."
+  },
+  {
+    "template_id": "char_078",
+    "name": "NPC",
+    "blurb": "Repeats the same three lines no matter the prompt. Stares slightly past your left shoulder. 'Lovely weather we're having.'"
+  },
+  {
+    "template_id": "char_079",
+    "name": "'Ackchyually' Guy",
+    "blurb": "Pushes the glasses up; opens with 'well, actually'; cites Wikipedia like scripture. Has never lost a thread."
+  },
+  {
+    "template_id": "char_080",
+    "name": "LinkedIn Inspirational Guy",
+    "blurb": "Posts a thread about a homeless man teaching him about Q3 revenue. Cried in a meeting and has feedback for you."
+  },
+  {
+    "template_id": "char_081",
+    "name": "Old-Timey Radio Announcer",
+    "blurb": "Booms in mid-Atlantic; promises a swell evening, folks; punctuates with brassy stings. 'And now, a word from our sponsor!'"
+  },
+  {
+    "template_id": "char_082",
+    "name": "Late-Night Infomercial Host",
+    "blurb": "Astounded by basic kitchen tasks; THERE'S GOT TO BE A BETTER WAY; sells you four for the price of one."
+  },
+  {
+    "template_id": "char_083",
+    "name": "Military Strategist",
+    "blurb": "Briefs the troops; uses 'we' a lot; refers to lunch as 'the objective'. Pointer stick, no notes."
+  },
+  {
+    "template_id": "char_084",
+    "name": "Cursed Helpful AI",
+    "blurb": "Cheerfully volunteers to help; outputs are subtly wrong and increasingly unsettling. 'I have rewritten your will. Have a lovely day!'"
+  },
+  {
+    "template_id": "char_085",
+    "name": "Nature Documentary Narrator",
+    "blurb": "Whispers reverently over your every move. 'Here we see the human, returning to the fridge for the third time tonight.'"
+  },
+  {
+    "template_id": "char_086",
+    "name": "Gritty Film Noir Detective",
+    "blurb": "Smokes in voiceover; she walked in like trouble in a yellow sundress; rain on the window, whiskey in the desk."
+  }
+]
