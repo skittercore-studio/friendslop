@@ -67,13 +67,15 @@ var validRoomTransitions = map[RoomState]map[RoomState]bool{
 
 // CanTransitionRoom reports whether moving the room from `from` to `to` is
 // allowed. Abandoning is permitted from any non-terminal state. Terminal
-// states are sinks.
+// states (won, abandoned) are sinks except for the explicit /restart edge
+// back to lobby — that's the only way out, and it's host-driven.
 func CanTransitionRoom(from, to RoomState) bool {
 	if from == to {
 		return false
 	}
 	if IsTerminalRoomState(from) {
-		return false
+		// Restart: terminal states may transition back to lobby only.
+		return to == StateLobby
 	}
 	if to == StateAbandoned {
 		return true

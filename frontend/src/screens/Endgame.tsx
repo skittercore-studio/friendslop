@@ -4,10 +4,9 @@ import { CharacterPool } from "../components/CharacterPool";
 import { Scoreboard } from "../components/Scoreboard";
 import {
   abandonedReason,
-  enterRoom,
   error,
+  isHost,
   loading,
-  me,
   resetToLanding,
   room,
   trueAssignments,
@@ -17,13 +16,9 @@ interface Props {
   code: string;
 }
 
-// `code` is part of the screen contract but unused here — Endgame doesn't
-// hit any code-keyed endpoints. Prefix with underscore to satisfy
-// noUnusedParameters.
-export function Endgame({ code: _code }: Props) {
+export function Endgame({ code }: Props) {
   const r = room.value;
-  const m = me.value;
-  const [creating, setCreating] = useState(false);
+  const [restarting, setRestarting] = useState(false);
 
   if (!r) return <div class="placeholder">Loading…</div>;
 
@@ -37,29 +32,21 @@ export function Endgame({ code: _code }: Props) {
   const charById = new Map(r.characters?.map((c) => [c.id, c]) ?? []);
   const playerById = new Map(r.players.map((p) => [p.id, p]));
 
+  // Host-only "Play again": the same room is reset to lobby with the same
+  // players, code, and sessions. Non-hosts see a passive waiting message
+  // — when the host hits restart, the SSE state.changed event drives
+  // every client back into Lobby via routeFromState.
   const onPlayAgain = async () => {
-    if (!m) {
-      resetToLanding();
-      return;
-    }
-    setCreating(true);
+    setRestarting(true);
     loading.value = true;
     try {
-      const res = await api.createRoom({
-        host_name: m.name,
-        pool_source: r.pool_source,
-        // Carry over a sensible default; timers from the previous room
-        // aren't exposed in the public snapshot, so we use 120/120/300.
-        answer_timeout_seconds: 120,
-        guess_timeout_seconds: 120,
-        charcreate_timeout_seconds:
-          r.pool_source === "playerwritten" ? 300 : null,
-      });
-      await enterRoom(res.room_code);
+      await api.restartRoom(code);
+      // No manual screen swap — the state.changed SSE event will trigger
+      // refresh() and routeFromState() will land on Lobby for everyone.
     } catch (e) {
       error.value = e instanceof Error ? e.message : String(e);
     } finally {
-      setCreating(false);
+      setRestarting(false);
       loading.value = false;
     }
   };
@@ -133,13 +120,19 @@ export function Endgame({ code: _code }: Props) {
       <Scoreboard />
 
       <div class="endgame-actions">
-        <button
-          class="primary"
-          disabled={creating || loading.value}
-          onClick={onPlayAgain}
-        >
-          {creating ? "Creating…" : "Play again"}
-        </button>
+        {isHost.value ? (
+          <button
+            class="primary"
+            disabled={restarting || loading.value}
+            onClick={onPlayAgain}
+          >
+            {restarting ? "Restarting…" : "Play again"}
+          </button>
+        ) : (
+          <div class="hint waiting-for-host">
+            Waiting for the host to start a new game…
+          </div>
+        )}
         <button class="ghost" onClick={() => resetToLanding()}>
           Back to landing
         </button>

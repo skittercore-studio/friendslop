@@ -46,10 +46,14 @@ func TestCanTransitionRoom(t *testing.T) {
 		{StateGuessing, StateAbandoned, true},
 		{StateScoring, StateAbandoned, true},
 
-		// terminal sinks
+		// terminal -> lobby is allowed (host /restart). Everything else
+		// out of a terminal state is not.
+		{StateWon, StateLobby, true},
+		{StateAbandoned, StateLobby, true},
 		{StateWon, StateAnswering, false},
-		{StateAbandoned, StateLobby, false},
 		{StateWon, StateAbandoned, false},
+		{StateAbandoned, StateAnswering, false},
+		{StateAbandoned, StateWon, false},
 
 		// no-op
 		{StateLobby, StateLobby, false},

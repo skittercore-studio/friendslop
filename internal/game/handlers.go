@@ -69,6 +69,7 @@ func (h *gameHandler) Mount(r chi.Router) {
 		g.Post("/api/v1/rooms/{code}/answer", h.answer)
 		g.Post("/api/v1/rooms/{code}/guess", h.guess)
 		g.Post("/api/v1/rooms/{code}/abandon", h.abandon)
+		g.Post("/api/v1/rooms/{code}/restart", h.restart)
 	})
 }
 
@@ -759,6 +760,100 @@ func (h *gameHandler) abandon(w http.ResponseWriter, r *http.Request) {
 		Name: "game.abandoned",
 		Data: map[string]any{"reason": "host_quit"},
 	})
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+// restart: host-only. Terminal state (won|abandoned) -> LOBBY. Wipes all
+// per-game artefacts (rounds, answers, guesses, guess_entries, room_characters)
+// and clears player.character_id, but keeps the same players, room code, and
+// session cookies. The frontend's existing SSE-driven routeFromState picks up
+// state.changed and drops every client back into the Lobby screen.
+func (h *gameHandler) restart(w http.ResponseWriter, r *http.Request) {
+	code := strings.ToUpper(chi.URLParam(r, "code"))
+	s, err := requireRoomSession(r, code)
+	if err != nil {
+		writeErr(w, err)
+		return
+	}
+	if !s.IsHost {
+		writeError(w, http.StatusForbidden, "only the host can restart the room")
+		return
+	}
+
+	ctx := r.Context()
+	now := time.Now().UnixMilli()
+
+	tx, err := h.db.BeginTx(ctx, nil)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	defer tx.Rollback()
+
+	var state string
+	if err := tx.QueryRowContext(ctx, `SELECT state FROM rooms WHERE id = ?`, s.RoomID).Scan(&state); err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	if !IsTerminalRoomState(RoomState(state)) {
+		writeError(w, http.StatusConflict, "room is not in a terminal state")
+		return
+	}
+	if err := ValidateRoomTransition(RoomState(state), StateLobby); err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	// Per-game artefacts. The schema has no ON DELETE CASCADE, so we walk
+	// the FK chain manually: guess_entries -> guesses -> answers -> rounds,
+	// then room_characters. Players are kept, character_id is nulled.
+	stmts := []string{
+		`DELETE FROM guess_entries WHERE guess_id IN (
+			SELECT id FROM guesses WHERE round_id IN (
+				SELECT id FROM rounds WHERE room_id = ?
+			)
+		)`,
+		`DELETE FROM guesses WHERE round_id IN (
+			SELECT id FROM rounds WHERE room_id = ?
+		)`,
+		`DELETE FROM answers WHERE round_id IN (
+			SELECT id FROM rounds WHERE room_id = ?
+		)`,
+		`UPDATE players SET character_id = NULL WHERE room_id = ?`,
+		`DELETE FROM rounds WHERE room_id = ?`,
+		`DELETE FROM room_characters WHERE room_id = ?`,
+	}
+	for _, q := range stmts {
+		if _, err := tx.ExecContext(ctx, q, s.RoomID); err != nil {
+			writeError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+
+	// Reset the room itself. Clear winner, started_at, ended_at; round_number
+	// back to 0; state back to lobby. last_activity_at bumped so the idle
+	// reaper doesn't immediately scoop us up.
+	if _, err := tx.ExecContext(ctx, `
+		UPDATE rooms
+		SET state = 'lobby',
+		    round_number = 0,
+		    winner_player_id = NULL,
+		    started_at = NULL,
+		    ended_at = NULL,
+		    last_activity_at = ?
+		WHERE id = ?
+	`, now, s.RoomID); err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if err := tx.Commit(); err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	EmitStateChanged(h.pub, s.RoomID, StateLobby, 0)
 
 	w.WriteHeader(http.StatusNoContent)
 }

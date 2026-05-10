@@ -104,6 +104,15 @@ export function abandonRoom(code: string): Promise<void> {
   });
 }
 
+// Host-only. Resets a terminal-state room (won|abandoned) back to lobby with
+// the same players, code, and sessions. Wipes per-game artefacts. The SSE
+// state.changed event drives every connected client back to the Lobby screen.
+export function restartRoom(code: string): Promise<void> {
+  return request<void>(`/rooms/${encodeURIComponent(code)}/restart`, {
+    method: "POST",
+  });
+}
+
 export function submitCharacter(
   code: string,
   name: string,
