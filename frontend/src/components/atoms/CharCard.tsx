@@ -1,5 +1,5 @@
 import type { JSX } from "preact";
-import { accentFor, glyphFor } from "../../lib/accent";
+import { accentFor, glyphFor } from "./palette";
 
 interface Props {
   /** Stable ID — used to derive sticky accent + glyph if not overridden. */

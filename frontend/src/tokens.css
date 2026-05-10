@@ -260,6 +260,24 @@
   transform: rotate(45deg);
 }
 
+/* room code — hero typography for the lobby */
+.fs-roomcode {
+  font-family: "Lilita One", "Space Grotesk", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  background: linear-gradient(
+    180deg,
+    var(--fs-fg) 0%,
+    var(--fs-accent) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
 /* index card (corkboard) */
 .fs-idx {
   background: linear-gradient(180deg, #fbf5e8, #f1e8d3);
