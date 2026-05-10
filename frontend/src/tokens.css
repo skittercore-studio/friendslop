@@ -259,6 +259,13 @@
   border-bottom: 1px solid var(--fs-line);
   transform: rotate(45deg);
 }
+.fs-bubble[data-tail="right"]::before {
+  left: auto;
+  right: 18px;
+}
+.fs-bubble[data-tail="none"]::before {
+  display: none;
+}
 
 /* room code — hero typography for the lobby */
 .fs-roomcode {

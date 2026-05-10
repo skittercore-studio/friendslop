@@ -31,6 +31,22 @@ export const sseStatus = signal<"open" | "reconnecting" | "closed" | "idle">(
 export const error = signal<string | null>(null);
 export const loading = signal<boolean>(false);
 
+/**
+ * 1Hz wall-clock signal. Screens that show a countdown read this and
+ * subtract a server-provided deadline (epoch ms). Single global tick keeps
+ * every TimerRing in lock-step and avoids each screen owning a setInterval.
+ *
+ * Started lazily on first import — at module load — and never torn down;
+ * it's cheap (one `signal` write per second) and the page only lives for
+ * one game session at a time.
+ */
+export const now = signal<number>(Date.now());
+if (typeof window !== "undefined") {
+  setInterval(() => {
+    now.value = Date.now();
+  }, 1000);
+}
+
 // Last revealed true assignments (only set after game.won)
 export const trueAssignments = signal<SSETrueAssignment[] | null>(null);
 export const abandonedReason = signal<string | null>(null);
