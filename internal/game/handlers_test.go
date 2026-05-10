@@ -218,7 +218,7 @@ func getMe(t *testing.T, srv *httptest.Server, code string, jc *joinedClient) me
 	return v
 }
 
-// TestStartRequiresMinPlayers — host can't start with <4 players.
+// TestStartRequiresMinPlayers — host can't start below MinPlayers (host alone < MinPlayers).
 func TestStartRequiresMinPlayers(t *testing.T) {
 	srv, _ := gameTestServer(t)
 	code, host := createRoom(t, srv, "vex", "live", "curated")
