@@ -141,7 +141,8 @@ func ValidateRoundTransition(from, to RoundState) error {
 }
 
 // MinPlayers is the hard minimum player count enforced at /start.
-const MinPlayers = 4
+// PLAYTEST: lowered from 4 to 2 for early playtesting. RESTORE TO 4 BEFORE PUBLIC LAUNCH.
+const MinPlayers = 2
 
 // ErrTooFewPlayers indicates a /start was attempted below MinPlayers.
-var ErrTooFewPlayers = errors.New("at least 4 players required to start")
+var ErrTooFewPlayers = errors.New("at least 2 players required to start")

@@ -19,7 +19,8 @@ interface Props {
 }
 
 const SLOTS = 8;
-const MIN_PLAYERS = 4;
+// PLAYTEST: lowered from 4 to 2 for early playtesting. RESTORE TO 4 BEFORE PUBLIC LAUNCH.
+const MIN_PLAYERS = 2;
 const RING_RADIUS = 110;
 
 export function Lobby({ code }: Props) {
