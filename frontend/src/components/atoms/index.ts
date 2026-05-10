@@ -1,6 +1,6 @@
 // Barrel export for the atom layer ported from design/handoff-v1.
 // Import shape: `import { CharCard, TimerRing } from "../components/atoms";`
-export { PALETTE, accentFor, accentForPlayer } from "./palette";
+export { PALETTE, accentFor, accentForPlayer, glyphFor } from "./palette";
 export type { AccentHex } from "./palette";
 export { TimerRing } from "./TimerRing";
 export { CharCard } from "./CharCard";
