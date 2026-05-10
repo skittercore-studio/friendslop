@@ -47,14 +47,13 @@ export function Endgame({ code: _code }: Props) {
     try {
       const res = await api.createRoom({
         host_name: m.name,
-        mode: r.mode,
         pool_source: r.pool_source,
-        // Carry over a sensible default; live timers from the previous room
+        // Carry over a sensible default; timers from the previous room
         // aren't exposed in the public snapshot, so we use 120/120/300.
-        answer_timeout_seconds: r.mode === "live" ? 120 : null,
-        guess_timeout_seconds: r.mode === "live" ? 120 : null,
+        answer_timeout_seconds: 120,
+        guess_timeout_seconds: 120,
         charcreate_timeout_seconds:
-          r.mode === "live" && r.pool_source === "playerwritten" ? 300 : null,
+          r.pool_source === "playerwritten" ? 300 : null,
       });
       await enterRoom(res.room_code);
     } catch (e) {

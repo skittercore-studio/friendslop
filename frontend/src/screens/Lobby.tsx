@@ -13,6 +13,8 @@ import {
   accentForPlayer,
 } from "../components/atoms";
 import type { PublicPlayer } from "../types";
+// Note: async mode was dropped pre-launch — every room is "live", so we no
+// longer surface the mode pill. Pool source remains user-visible.
 
 interface Props {
   code: string;
@@ -74,10 +76,10 @@ export function Lobby({ code }: Props) {
         boxSizing: "border-box",
       }}
     >
-      {/* Top: room label + share hint */}
+      {/* Top: room label */}
       <div class="fs-row fs-between" style={{ marginTop: 4 }}>
         <span class="fs-tiny">room</span>
-        <StatusPill kind="live" label={r.mode === "live" ? "LIVE" : "ASYNC"} />
+        <StatusPill kind="live" label="LIVE" />
       </div>
 
       {/* Hero: room code */}
@@ -216,7 +218,7 @@ export function Lobby({ code }: Props) {
         })}
       </div>
 
-      {/* Pool source + mode pills (informational) */}
+      {/* Pool source pill (informational) */}
       <div class="fs-col" style={{ gap: 8 }}>
         <div class="fs-row fs-between">
           <span class="fs-lbl">pool</span>
@@ -228,19 +230,6 @@ export function Lobby({ code }: Props) {
             <StatusPill
               kind={r.pool_source === "playerwritten" ? "done" : "idle"}
               label="PLAYER-WRITTEN"
-            />
-          </div>
-        </div>
-        <div class="fs-row fs-between">
-          <span class="fs-lbl">mode</span>
-          <div class="fs-row" style={{ gap: 6 }}>
-            <StatusPill
-              kind={r.mode === "live" ? "done" : "idle"}
-              label="LIVE"
-            />
-            <StatusPill
-              kind={r.mode === "async" ? "done" : "idle"}
-              label="ASYNC"
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useState } from "preact/hooks";
 import * as api from "../api";
 import { enterRoom, error, loading } from "../store";
-import type { PoolSource, RoomMode } from "../types";
+import type { PoolSource } from "../types";
 
 type Tab = "create" | "join";
 
@@ -133,7 +133,6 @@ export function Landing() {
 
 function CreateForm() {
   const [name, setName] = useState("");
-  const [mode, setMode] = useState<RoomMode>("live");
   const [poolSource, setPoolSource] = useState<PoolSource>("curated");
   const [answerSecs, setAnswerSecs] = useState(120);
   const [guessSecs, setGuessSecs] = useState(120);
@@ -149,16 +148,13 @@ function CreateForm() {
     loading.value = true;
     error.value = null;
     try {
-      const isLive = mode === "live";
       const isPlayerWritten = poolSource === "playerwritten";
       const res = await api.createRoom({
         host_name: name.trim(),
-        mode,
         pool_source: poolSource,
-        answer_timeout_seconds: isLive ? answerSecs : null,
-        guess_timeout_seconds: isLive ? guessSecs : null,
-        charcreate_timeout_seconds:
-          isLive && isPlayerWritten ? charcreateSecs : null,
+        answer_timeout_seconds: answerSecs,
+        guess_timeout_seconds: guessSecs,
+        charcreate_timeout_seconds: isPlayerWritten ? charcreateSecs : null,
       });
       await enterRoom(res.room_code);
     } catch (err) {
@@ -191,25 +187,6 @@ function CreateForm() {
         />
       </div>
 
-      {/* Mode */}
-      <div class="fs-col" style={{ gap: 6 }}>
-        <label class="fs-lbl">mode</label>
-        <div class="fs-row" style={{ gap: 8 }}>
-          <ToggleChip
-            on={mode === "live"}
-            label="LIVE"
-            sub="timed rounds"
-            onClick={() => setMode("live")}
-          />
-          <ToggleChip
-            on={mode === "async"}
-            label="ASYNC"
-            sub="24h windows"
-            onClick={() => setMode("async")}
-          />
-        </div>
-      </div>
-
       {/* Pool source */}
       <div class="fs-col" style={{ gap: 6 }}>
         <label class="fs-lbl">character pool</label>
@@ -229,50 +206,48 @@ function CreateForm() {
         </div>
       </div>
 
-      {/* Timers (collapsible, only matters in live mode) */}
-      {mode === "live" && (
-        <div class="fs-col" style={{ gap: 8 }}>
-          <button
-            type="button"
-            class="fs-lbl"
-            onClick={() => setTimersOpen((v) => !v)}
-            style={{
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              textAlign: "left",
-              color: "var(--fs-fg-mute)",
-            }}
+      {/* Timers (collapsible) */}
+      <div class="fs-col" style={{ gap: 8 }}>
+        <button
+          type="button"
+          class="fs-lbl"
+          onClick={() => setTimersOpen((v) => !v)}
+          style={{
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+            textAlign: "left",
+            color: "var(--fs-fg-mute)",
+          }}
+        >
+          {timersOpen ? "▾" : "▸"} customise timers
+        </button>
+        {timersOpen && (
+          <div
+            class="fs-card fs-col fs-anim-slide"
+            style={{ padding: 14, gap: 10 }}
           >
-            {timersOpen ? "▾" : "▸"} customise timers
-          </button>
-          {timersOpen && (
-            <div
-              class="fs-card fs-col fs-anim-slide"
-              style={{ padding: 14, gap: 10 }}
-            >
+            <TimerField
+              label="answer (s)"
+              value={answerSecs}
+              onChange={setAnswerSecs}
+            />
+            <TimerField
+              label="guess (s)"
+              value={guessSecs}
+              onChange={setGuessSecs}
+            />
+            {poolSource === "playerwritten" && (
               <TimerField
-                label="answer (s)"
-                value={answerSecs}
-                onChange={setAnswerSecs}
+                label="charcreate (s)"
+                value={charcreateSecs}
+                onChange={setCharcreateSecs}
               />
-              <TimerField
-                label="guess (s)"
-                value={guessSecs}
-                onChange={setGuessSecs}
-              />
-              {poolSource === "playerwritten" && (
-                <TimerField
-                  label="charcreate (s)"
-                  value={charcreateSecs}
-                  onChange={setCharcreateSecs}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        )}
+      </div>
 
       {/* CTA */}
       <button

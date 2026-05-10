@@ -246,7 +246,7 @@ func TestStartRequiresHost(t *testing.T) {
 // rigged to produce a winner in round 1.
 func TestCuratedHappyPath(t *testing.T) {
 	srv, pub := gameTestServer(t)
-	code, host := createRoom(t, srv, "vex", "async", "curated")
+	code, host := createRoom(t, srv, "vex", "live", "curated")
 
 	// Three more players for total 4.
 	others := []*joinedClient{
@@ -377,7 +377,7 @@ func TestCuratedHappyPath(t *testing.T) {
 // TestPlayerWrittenFlow — playerwritten pool source goes through CHARCREATE.
 func TestPlayerWrittenFlow(t *testing.T) {
 	srv, pub := gameTestServer(t)
-	code, host := createRoom(t, srv, "vex", "async", "playerwritten")
+	code, host := createRoom(t, srv, "vex", "live", "playerwritten")
 	others := []*joinedClient{
 		joinRoom(t, srv, code, "alice"),
 		joinRoom(t, srv, code, "bob"),
@@ -474,7 +474,7 @@ func TestAbandonHost(t *testing.T) {
 // TestStaleRoundNumberAnswer — answer with wrong round_number is 409.
 func TestStaleRoundNumberAnswer(t *testing.T) {
 	srv, _ := gameTestServer(t)
-	code, host := createRoom(t, srv, "vex", "async", "curated")
+	code, host := createRoom(t, srv, "vex", "live", "curated")
 	for _, n := range []string{"a", "b", "c"} {
 		joinRoom(t, srv, code, n)
 	}
@@ -493,7 +493,7 @@ func TestStaleRoundNumberAnswer(t *testing.T) {
 // TestGuessRejectsSelfMapping — mapping containing the guesser is 400.
 func TestGuessRejectsSelfMapping(t *testing.T) {
 	srv, _ := gameTestServer(t)
-	code, host := createRoom(t, srv, "vex", "async", "curated")
+	code, host := createRoom(t, srv, "vex", "live", "curated")
 	others := []*joinedClient{
 		joinRoom(t, srv, code, "alice"),
 		joinRoom(t, srv, code, "bob"),

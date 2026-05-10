@@ -10,7 +10,9 @@ export type RoomState =
   | "won"
   | "abandoned";
 
-export type RoomMode = "live" | "async";
+// Async mode was dropped pre-launch. The field stays on the wire for
+// backwards-compat but only ever carries "live".
+export type RoomMode = "live";
 export type PoolSource = "curated" | "playerwritten";
 
 export interface PublicPlayer {
@@ -84,7 +86,6 @@ export interface PrivateMeView {
 // POST /api/v1/rooms — create payload
 export interface CreateRoomRequest {
   host_name: string;
-  mode: RoomMode;
   pool_source: PoolSource;
   answer_timeout_seconds?: number | null;
   guess_timeout_seconds?: number | null;

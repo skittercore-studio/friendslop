@@ -203,9 +203,9 @@ func TestRoomCreateValidation(t *testing.T) {
 		name string
 		body map[string]any
 	}{
-		{"missing host_name", map[string]any{"mode": "live", "pool_source": "curated"}},
-		{"bad mode", map[string]any{"host_name": "x", "mode": "telegraph", "pool_source": "curated"}},
-		{"bad pool_source", map[string]any{"host_name": "x", "mode": "live", "pool_source": "wiki"}},
+		{"missing host_name", map[string]any{"pool_source": "curated"}},
+		// `mode` is accepted-but-ignored since async was dropped — not a 400 case.
+		{"bad pool_source", map[string]any{"host_name": "x", "pool_source": "wiki"}},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

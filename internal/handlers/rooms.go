@@ -71,8 +71,10 @@ func (h *Rooms) Mount(r chi.Router, requireSession func(http.Handler) http.Handl
 // Wire types
 
 type createRequest struct {
-	HostName                 string `json:"host_name"`
-	Mode                     string `json:"mode"`
+	HostName string `json:"host_name"`
+	// Mode is accepted but ignored — async mode was dropped pre-launch and
+	// every room is now "live". Kept on the wire so older clients don't 400.
+	Mode                     string `json:"mode,omitempty"`
 	PoolSource               string `json:"pool_source"`
 	AnswerTimeoutSeconds     *int   `json:"answer_timeout_seconds,omitempty"`
 	GuessTimeoutSeconds      *int   `json:"guess_timeout_seconds,omitempty"`
@@ -181,20 +183,16 @@ func (h *Rooms) Create(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "host_name must be 1-32 chars")
 		return
 	}
-	if req.Mode != "live" && req.Mode != "async" {
-		writeError(w, http.StatusBadRequest, "mode must be live or async")
-		return
-	}
 	if req.PoolSource != "curated" && req.PoolSource != "playerwritten" {
 		writeError(w, http.StatusBadRequest, "pool_source must be curated or playerwritten")
 		return
 	}
 
-	answerTO := defaultTimeout(req.AnswerTimeoutSeconds, req.Mode, 120, 24*60*60)
-	guessTO := defaultTimeout(req.GuessTimeoutSeconds, req.Mode, 120, 24*60*60)
+	answerTO := defaultTimeout(req.AnswerTimeoutSeconds, 120)
+	guessTO := defaultTimeout(req.GuessTimeoutSeconds, 120)
 	var charTO *int
 	if req.PoolSource == "playerwritten" {
-		v := defaultTimeout(req.CharcreateTimeoutSeconds, req.Mode, 300, 24*60*60)
+		v := defaultTimeout(req.CharcreateTimeoutSeconds, 300)
 		charTO = &v
 	}
 
@@ -228,8 +226,8 @@ func (h *Rooms) Create(w http.ResponseWriter, r *http.Request) {
 			answer_timeout_seconds, guess_timeout_seconds,
 			inter_round_pause_seconds, question_bank, character_pool,
 			created_at, last_activity_at
-		) VALUES (?, ?, 'lobby', ?, ?, ?, ?, 0, ?, ?, 10, 'default', 'default', ?, ?)
-	`, roomID, code, req.Mode, req.PoolSource, nullableInt(charTO),
+		) VALUES (?, ?, 'lobby', 'live', ?, ?, ?, 0, ?, ?, 10, 'default', 'default', ?, ?)
+	`, roomID, code, req.PoolSource, nullableInt(charTO),
 		playerID, answerTO, guessTO,
 		now, now,
 	); err != nil {
@@ -715,14 +713,11 @@ func validName(s string) bool {
 	return true
 }
 
-func defaultTimeout(provided *int, mode string, liveDefault, asyncDefault int) int {
+func defaultTimeout(provided *int, def int) int {
 	if provided != nil {
 		return *provided
 	}
-	if mode == "live" {
-		return liveDefault
-	}
-	return asyncDefault
+	return def
 }
 
 func nullableInt(p *int) interface{} {
