@@ -339,17 +339,23 @@ export function GuessPhase({ code }: Props) {
           </div>
         )}
 
-        {/* Picker — appears when the user taps an empty editable cell. */}
+        {/* Picker — appears when the user taps an empty editable cell.
+            Your own character is excluded from the offered set: in both
+            curated and playerwritten modes a character maps 1:1 to a
+            single player, so your character can never legitimately
+            belong to another row. */}
         {pickerFor && editable && (
           <CharPicker
             characters={characters}
-            takenIds={
-              new Set(
+            takenIds={(() => {
+              const taken = new Set(
                 Object.entries(draft)
                   .filter(([k, v]) => k !== pickerFor && v)
                   .map(([, v]) => v),
-              )
-            }
+              );
+              if (m.your_character) taken.add(m.your_character.id);
+              return taken;
+            })()}
             onPick={(cid) => {
               setCell(pickerFor, cid);
               setPickerFor(null);
