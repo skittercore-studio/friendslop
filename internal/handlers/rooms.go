@@ -525,7 +525,10 @@ func (h *Rooms) PrivateMe(w http.ResponseWriter, r *http.Request) {
 	var resp PrivateMeResponse
 	resp.PlayerID = s.PlayerID
 	resp.IsHost = s.IsHost
-	resp.YourGuessForCurrent = map[string]string{}
+	// YourGuessForCurrent stays nil until we find an actual submitted guess —
+	// nil marshals to JSON null, which is the contract the frontend checks
+	// (your_guess_for_current_round !== null ⇒ already submitted). Pre-initing
+	// to {} would lock the player out of the submit button on every fresh round.
 	resp.YourPastGuesses = []pastGuess{}
 
 	var (
@@ -591,13 +594,15 @@ func (h *Rooms) PrivateMe(w http.ResponseWriter, r *http.Request) {
 					guessID.String,
 				)
 				if err == nil {
+					mapping := map[string]string{}
 					for erows.Next() {
 						var tp, cid string
 						if err := erows.Scan(&tp, &cid); err == nil {
-							resp.YourGuessForCurrent[tp] = cid
+							mapping[tp] = cid
 						}
 					}
 					erows.Close()
+					resp.YourGuessForCurrent = mapping
 				}
 			}
 		}
