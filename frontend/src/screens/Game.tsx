@@ -9,9 +9,6 @@
  * - answering             → AnswerPhase
  * - guessing | scoring    → GuessPhase
  * - anything else (defensive) → loading placeholder
- *
- * AnswerPhase and GuessPhase are currently stubs that delegate to
- * LegacyGame; Stage 2 agents replace them with the new design.
  */
 import { room } from "../store";
 import { AnswerPhase } from "./AnswerPhase";

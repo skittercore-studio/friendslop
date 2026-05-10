@@ -9,9 +9,8 @@
  *
  * Reads from the global `room` / `me` / `now` signals; submits via
  * api.submitGuess. No local timers (relies on the 1Hz tick from
- * store.now). The 1:1 enforcement validation is replicated from
- * components/GuessGrid.tsx (which we don't import — Stage 2 contract is
- * one screen file owns its full surface).
+ * store.now). 1:1 enforcement validation is inline (a character can
+ * be assigned to at most one player in the current round's draft).
  */
 import { useMemo, useRef, useState } from "preact/hooks";
 import * as api from "../api";
