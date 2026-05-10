@@ -1,0 +1,379 @@
+/* ───────────────────────────────────────────────────────────
+   FRIENDSLOP — design tokens & primitive utility classes
+   Ported from design/handoff-v1/friendslop-tokens.css.
+   Drops phone-preview chrome (.fs-phone/.fs-status/.fs-notch/.fs-home);
+   those existed only to fake an iOS shell in the design canvas.
+   ─────────────────────────────────────────────────────────── */
+
+:root {
+  /* surfaces */
+  --fs-bg: #0c0a18;
+  --fs-bg-1: #14112a;
+  --fs-bg-2: #1d1a3a;
+  --fs-bg-3: #2a2654;
+  --fs-line: #322e60;
+  --fs-line-soft: #211e44;
+
+  /* text */
+  --fs-fg: #f6f3ff;
+  --fs-fg-mute: #a5a0d0;
+  --fs-fg-faint: #6b6798;
+
+  /* accent palette — assigned per character, sticky across rounds */
+  --c-yellow: #ffd60a;
+  --c-pink: #ff3d8a;
+  --c-teal: #00e8d4;
+  --c-lime: #c4ff3a;
+  --c-orange: #ff7a3a;
+  --c-lavender: #b89cff;
+  --c-sky: #4ad6ff;
+  --c-magenta: #e065ff;
+  --c-coral: #ff6b6b;
+  --c-mint: #6effbe;
+  --c-gold: #ffb13d;
+  --c-peri: #7e9cff;
+
+  /* semantic */
+  --fs-accent: var(--c-yellow);
+  --fs-live: var(--c-pink);
+  --fs-positive: var(--c-lime);
+
+  /* shadows */
+  --fs-shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --fs-shadow-2: 0 2px 0 rgba(255, 255, 255, 0.05) inset,
+    0 24px 48px -16px rgba(0, 0, 0, 0.7);
+  --fs-glow-accent: 0 0 0 1px rgba(255, 214, 10, 0.3),
+    0 12px 32px -8px rgba(255, 214, 10, 0.35);
+  --fs-glow-pink: 0 0 0 1px rgba(255, 61, 138, 0.4),
+    0 10px 30px -8px rgba(255, 61, 138, 0.4);
+}
+
+/* ── type helpers ────────────────────────────────────────── */
+.fs {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: var(--fs-fg);
+  -webkit-font-smoothing: antialiased;
+}
+.fs-display {
+  font-family: "Lilita One", "Space Grotesk", sans-serif;
+  letter-spacing: 0.005em;
+  line-height: 0.95;
+}
+.fs-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.02em;
+}
+
+/* ── primitives ──────────────────────────────────────────── */
+.fs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid var(--fs-line);
+  background: var(--fs-bg-2);
+  color: var(--fs-fg);
+  font-family: "Lilita One", "Space Grotesk", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    background 0.12s ease;
+}
+.fs-btn:hover {
+  transform: translateY(-1px);
+}
+.fs-btn:active {
+  transform: translateY(1px);
+}
+.fs-btn--primary {
+  background: var(--fs-accent);
+  color: #1a1300;
+  border-color: transparent;
+  box-shadow: var(--fs-glow-accent);
+}
+.fs-btn--primary:hover {
+  box-shadow: 0 0 0 1px rgba(255, 214, 10, 0.5),
+    0 16px 40px -8px rgba(255, 214, 10, 0.5);
+}
+.fs-btn--ghost {
+  background: transparent;
+  color: var(--fs-fg-mute);
+  border-color: var(--fs-line);
+}
+.fs-btn--disabled,
+.fs-btn:disabled {
+  background: var(--fs-bg-1);
+  color: var(--fs-fg-faint);
+  border-color: var(--fs-line-soft);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.fs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--fs-line);
+  background: var(--fs-bg-1);
+  color: var(--fs-fg-mute);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.fs-chip--on {
+  background: var(--fs-accent);
+  color: #1a1300;
+  border-color: transparent;
+}
+.fs-chip--live {
+  background: var(--fs-live);
+  color: #260010;
+  border-color: transparent;
+}
+
+.fs-card {
+  background: var(--fs-bg-1);
+  border: 1px solid var(--fs-line);
+  border-radius: 18px;
+  box-shadow: var(--fs-shadow-1);
+}
+
+/* character card — has accent stripe */
+.fs-charcard {
+  background: linear-gradient(180deg, var(--fs-bg-2), var(--fs-bg-1));
+  border: 1px solid var(--fs-line);
+  border-radius: 16px;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.fs-charcard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--char-accent, var(--fs-accent));
+  box-shadow: 0 0 24px var(--char-accent, var(--fs-accent));
+}
+.fs-charcard__name {
+  font-family: "Lilita One", sans-serif;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.fs-charcard__name span.glyph {
+  color: var(--char-accent, var(--fs-accent));
+}
+.fs-charcard__desc {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fs-fg-mute);
+}
+
+/* avatar */
+.fs-av {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Lilita One", sans-serif;
+  font-size: 18px;
+  background: var(--fs-bg-2);
+  border: 1px solid var(--fs-line);
+  color: var(--fs-fg);
+  flex-shrink: 0;
+}
+.fs-av--lg {
+  width: 56px;
+  height: 56px;
+  font-size: 26px;
+}
+.fs-av--xl {
+  width: 84px;
+  height: 84px;
+  font-size: 42px;
+}
+.fs-av--accent {
+  background: var(--char-accent, var(--fs-accent));
+  border-color: transparent;
+  color: #1a1300;
+}
+.fs-av--empty {
+  border-style: dashed;
+  border-color: var(--fs-line);
+  background: transparent;
+  color: var(--fs-fg-faint);
+}
+
+/* timer ring */
+.fs-ring {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.fs-ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.fs-ring__time {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* speech bubble */
+.fs-bubble {
+  position: relative;
+  background: var(--fs-bg-1);
+  border: 1px solid var(--fs-line);
+  border-radius: 16px;
+  padding: 12px 14px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.fs-bubble::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  background: var(--fs-bg-1);
+  border-right: 1px solid var(--fs-line);
+  border-bottom: 1px solid var(--fs-line);
+  transform: rotate(45deg);
+}
+
+/* index card (corkboard) */
+.fs-idx {
+  background: linear-gradient(180deg, #fbf5e8, #f1e8d3);
+  color: #2a2410;
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: "Space Grotesk", sans-serif;
+  position: relative;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2),
+    0 6px 18px -6px rgba(0, 0, 0, 0.55);
+}
+.fs-idx::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 24px;
+  border-bottom: 1px solid rgba(80, 30, 30, 0.3);
+}
+.fs-pin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--fs-live);
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── utility ─────────────────────────────────────────────── */
+.fs-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fs-between {
+  justify-content: space-between;
+}
+.fs-center {
+  align-items: center;
+  justify-content: center;
+}
+.fs-grow {
+  flex: 1;
+  min-height: 0;
+}
+.fs-tac {
+  text-align: center;
+}
+.fs-muted {
+  color: var(--fs-fg-mute);
+}
+.fs-faint {
+  color: var(--fs-fg-faint);
+}
+
+.fs-tiny {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fs-fg-mute);
+}
+.fs-lbl {
+  font-size: 13px;
+  color: var(--fs-fg-mute);
+}
+
+/* ── keyframes ───────────────────────────────────────────── */
+@keyframes fs-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes fs-slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fs-pulse-pink {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 61, 138, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 61, 138, 0);
+  }
+}
+.fs-anim-pop {
+  animation: fs-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.fs-anim-slide {
+  animation: fs-slide-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+.fs-pulse {
+  animation: fs-pulse-pink 1.2s ease-out infinite;
+}
