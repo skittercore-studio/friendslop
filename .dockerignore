@@ -1,0 +1,22 @@
+.git/
+.gitignore
+.claude/
+bin/
+data/
+local.db
+local.db-*
+
+# node — image rebuilds these inside the spa stage
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# embed mirror — image rebuilds this from the spa stage
+web/frontend-dist/
+
+# editor / OS noise
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo

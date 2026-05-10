@@ -1,11 +1,24 @@
 # syntax=docker/dockerfile:1.7
 # Multi-stage build for friendslop.
-# Builder needs cgo for mattn/go-sqlite3; runtime is a slim alpine with the
-# binary running as a non-root user. The frontend agent's dist bundle is
-# copied in via the embed directive at build time — the dist_stub fallback
-# keeps this build green even before the frontend ships.
+#
+# Stages:
+#   1. spa     — node 22, builds frontend/dist via vite
+#   2. builder — golang 1.25 alpine, embeds spa output into static binary
+#   3. runtime — alpine 3.20, runs as non-root, /data volume for sqlite
+#
+# Builder needs cgo for mattn/go-sqlite3 (sqlite3 driver). Runtime keeps
+# only the binary + sqlite-libs.
 
-FROM golang:1.23-alpine AS builder
+FROM node:22-alpine AS spa
+WORKDIR /spa
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci --silent
+COPY frontend/. ./
+RUN npm run build
+
+# ----------------------------------------------------------------------------
+
+FROM golang:1.25-alpine AS builder
 RUN apk add --no-cache build-base git
 WORKDIR /src
 
@@ -14,6 +27,10 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
+# Mirror the vite output into web/frontend-dist where the embed directive
+# expects to find it. web/frontend-dist is gitignored — it's a build artifact.
+RUN rm -rf web/frontend-dist
+COPY --from=spa /spa/dist ./web/frontend-dist
 
 ENV CGO_ENABLED=1
 RUN go build -trimpath -ldflags="-s -w" -o /out/friendslop ./cmd/friendslop
