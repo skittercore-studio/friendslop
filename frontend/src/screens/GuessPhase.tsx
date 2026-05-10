@@ -154,7 +154,7 @@ export function GuessPhase({ code }: Props) {
 
   return (
     <div
-      class="fs"
+      class="fs fs-guess"
       style={{
         minHeight: "100vh",
         background: "var(--fs-bg)",

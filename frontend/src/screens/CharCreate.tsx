@@ -89,7 +89,7 @@ export function CharCreate({ code }: Props) {
   const counterPillKind = counter.submitted >= counter.total ? "done" : "live";
 
   return (
-    <div class="fs charcreate" style={{ padding: "10px 22px 24px" }}>
+    <div class="fs fs-charcreate charcreate" style={{ padding: "10px 22px 24px" }}>
       {/* Header: title + submitted/total chip */}
       <div
         class="fs-row fs-between"

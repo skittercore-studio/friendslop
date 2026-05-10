@@ -86,7 +86,7 @@ export function AnswerPhase({ code }: Props) {
 
   return (
     <div
-      class="fs"
+      class="fs fs-answer"
       style={{
         minHeight: "100vh",
         background: "var(--fs-bg)",

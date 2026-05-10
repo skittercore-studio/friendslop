@@ -63,7 +63,7 @@ export function Lobby({ code }: Props) {
 
   return (
     <div
-      class="fs"
+      class="fs fs-lobby"
       style={{
         display: "flex",
         flexDirection: "column",
