@@ -309,8 +309,11 @@ func (h *gameHandler) character(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if allSubmitted {
-		// Assign 1:1 (this also shuffles internally) then open round 1.
-		if _, err := AssignCharacters(ctx, tx, playerIDs, charIDs); err != nil {
+		// Deterministic authored assignment: every player performs the
+		// character they wrote. No shuffle — the mechanic is "guess who
+		// wrote (= played) which voice". A future "shuffled" room option
+		// can branch here.
+		if _, err := AssignAuthoredCharacters(ctx, tx, s.RoomID); err != nil {
 			writeError(w, http.StatusInternalServerError, err.Error())
 			return
 		}

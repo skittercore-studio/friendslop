@@ -304,7 +304,7 @@ GET    /healthz                          → 200 OK
   "name": "alice",
   "is_host": false,
   "your_character": { "id": "c1", "name": "Hermione Granger", "blurb": "..." },
-  "your_authored_character_id": "c4",       // present iff pool_source=playerwritten AND CHARCREATE complete; the character this player wrote (may equal your_character.id if they happened to be dealt their own)
+  "your_authored_character_id": "c4",       // present iff pool_source=playerwritten AND CHARCREATE complete; the character this player wrote. Equal to your_character.id in the current implementation: every author plays the character they authored (deterministic assignment, no shuffle).
   "your_answer_for_current_round": "...",   // null if not submitted
   "your_guess_for_current_round": {         // null if not submitted
     "p1": "c2",

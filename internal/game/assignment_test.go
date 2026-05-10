@@ -117,6 +117,60 @@ func TestAssignCharacters_Bijective(t *testing.T) {
 	}
 }
 
+func TestAssignAuthoredCharacters_PlaysOwn(t *testing.T) {
+	ctx := context.Background()
+	dir := t.TempDir()
+	d, err := db.Open(ctx, filepath.Join(dir, "g.db"))
+	if err != nil {
+		t.Fatalf("open: %v", err)
+	}
+	t.Cleanup(func() { d.Close() })
+
+	roomID := mustSeedRoom(t, d, "charcreate", "playerwritten")
+	playerIDs := []string{
+		mustSeedPlayer(t, d, roomID, "alice"),
+		mustSeedPlayer(t, d, roomID, "bob"),
+		mustSeedPlayer(t, d, roomID, "carol"),
+		mustSeedPlayer(t, d, roomID, "dave"),
+	}
+	// Each player authors exactly one character.
+	authored := make(map[string]string, len(playerIDs))
+	for _, pid := range playerIDs {
+		cid := mustSeedAuthoredCharacter(t, d, roomID, pid)
+		authored[pid] = cid
+	}
+
+	tx, _ := d.BeginTx(ctx, nil)
+	got, err := AssignAuthoredCharacters(ctx, tx, roomID)
+	if err != nil {
+		t.Fatalf("assign authored: %v", err)
+	}
+	if err := tx.Commit(); err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != len(authored) {
+		t.Fatalf("want %d pairs, got %d", len(authored), len(got))
+	}
+	// Every player must be assigned the character they themselves authored.
+	for pid, wantCID := range authored {
+		if gotCID, ok := got[pid]; !ok {
+			t.Errorf("player %s missing from assignment", pid)
+		} else if gotCID != wantCID {
+			t.Errorf("player %s: assigned %s, want authored %s", pid, gotCID, wantCID)
+		}
+	}
+	// players.character_id must be persisted to match.
+	for pid, wantCID := range authored {
+		var cid string
+		if err := d.QueryRowContext(ctx, `SELECT character_id FROM players WHERE id = ?`, pid).Scan(&cid); err != nil {
+			t.Fatalf("player %s: %v", pid, err)
+		}
+		if cid != wantCID {
+			t.Errorf("player %s persisted character_id %s, want %s", pid, cid, wantCID)
+		}
+	}
+}
+
 // ---- helpers ----------------------------------------------------------------
 
 func mustSeedRoom(t *testing.T, d *sql.DB, state, poolSrc string) string {
@@ -152,6 +206,17 @@ func mustSeedRoomCharacter(t *testing.T, d *sql.DB, roomID, templateID string) s
 		id, room_id, template_id, author_player_id, name, blurb
 	) VALUES (?, ?, ?, NULL, 'name', 'blurb')`, id, roomID, templateID); err != nil {
 		t.Fatalf("seed room_character: %v", err)
+	}
+	return id
+}
+
+func mustSeedAuthoredCharacter(t *testing.T, d *sql.DB, roomID, authorPlayerID string) string {
+	t.Helper()
+	id := uuid.NewString()
+	if _, err := d.Exec(`INSERT INTO room_characters (
+		id, room_id, template_id, author_player_id, name, blurb
+	) VALUES (?, ?, NULL, ?, 'name', 'blurb')`, id, roomID, authorPlayerID); err != nil {
+		t.Fatalf("seed authored room_character: %v", err)
 	}
 	return id
 }

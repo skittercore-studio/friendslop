@@ -102,6 +102,54 @@ func AssignCharacters(ctx context.Context, tx *sql.Tx, playerIDs []string, chara
 	return out, nil
 }
 
+// AssignAuthoredCharacters performs the deterministic playerwritten assignment:
+// every player is dealt the character they themselves authored. No shuffle,
+// no derangement — the mechanic is "you write a character, you perform it,
+// friends try to recognise your voice." The shuffle in AssignCharacters is
+// reserved for curated mode where there's no authorship to honour.
+//
+// Operates on the players table directly via a JOIN: for every live player in
+// the room, set character_id to the room_characters row where
+// author_player_id = player.id. Returns the resulting map for callers that
+// want to inspect the assignment.
+func AssignAuthoredCharacters(ctx context.Context, tx *sql.Tx, roomID string) (map[string]string, error) {
+	rows, err := tx.QueryContext(ctx, `
+		SELECT p.id, c.id
+		FROM players p
+		JOIN room_characters c
+		  ON c.room_id = p.room_id AND c.author_player_id = p.id
+		WHERE p.room_id = ? AND p.left_at IS NULL
+	`, roomID)
+	if err != nil {
+		return nil, fmt.Errorf("collect authored pairs: %w", err)
+	}
+	defer rows.Close()
+
+	pairs := make(map[string]string)
+	for rows.Next() {
+		var pid, cid string
+		if err := rows.Scan(&pid, &cid); err != nil {
+			return nil, err
+		}
+		pairs[pid] = cid
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	if len(pairs) == 0 {
+		return nil, errors.New("no authored characters to assign")
+	}
+
+	for pid, cid := range pairs {
+		if _, err := tx.ExecContext(ctx, `
+			UPDATE players SET character_id = ? WHERE id = ?
+		`, cid, pid); err != nil {
+			return nil, fmt.Errorf("assign player %s: %w", pid, err)
+		}
+	}
+	return pairs, nil
+}
+
 // PlayerWrittenCharacterIDs reads back the room_characters that authors
 // inserted during CHARCREATE, in stable id order. Used to feed
 // AssignCharacters once all authors have submitted.
